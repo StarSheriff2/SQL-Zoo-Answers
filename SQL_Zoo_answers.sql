@@ -1,13 +1,18 @@
+-- Excercises taken from https://sqlzoo.net/
+
 /**
   ====SELECT basics====
 **/
 
+/**1**/
 SELECT population FROM world
-  WHERE name = 'Germany'
+WHERE name = 'Germany'
 
+/**2**/
 SELECT name, population FROM world
   WHERE name IN ('Sweden', 'Norway','Denmark');
 
+/**3**/
 SELECT name, area FROM world
   WHERE area BETWEEN 200000 AND 250000;
 
@@ -169,11 +174,13 @@ WHERE gdp > ALL(SELECT gdp
                 WHERE continent = 'Europe'
                 AND gdp > 0);
 
-SELECT continent, name, area FROM world x
-  WHERE area >= ALL
-    (SELECT area FROM world y
-        WHERE y.continent=x.continent
-          AND area>0)
+SELECT continent, name, area
+FROM world x
+WHERE area >= ALL(
+        SELECT area FROM world y
+        WHERE y.continent = x.continent
+        AND area > 0
+        );
 
 SELECT continent, name
 FROM world x
@@ -196,3 +203,53 @@ WHERE population > ALL(SELECT population*3
                        FROM world y
                        WHERE y.continent = x.continent
                        AND y.name <> x.name); -- DAMN, THIS ONE WAS TRICKY!
+
+/**
+  ====SUM and COUNT====
+**/
+
+SELECT SUM(population)
+FROM world
+
+SELECT DISTINCT continent
+FROM world
+
+SELECT SUM(gdp) AS 'Total GDP'
+FROM world
+WHERE continent = 'Africa'
+
+SELECT COUNT(name)
+FROM world
+WHERE area >= 1000000
+
+SELECT SUM(population)
+FROM world
+WHERE name IN ('Estonia', 'Latvia', 'Lithuania')
+
+SELECT continent, COUNT(name)
+FROM world x
+GROUP BY continent
+
+SELECT continent, COUNT(name) AS '>= 10 mil. People'
+FROM world
+WHERE population >= 10000000
+GROUP BY continent
+
+
+/**8**/
+SELECT DISTINCT continent
+FROM world x
+WHERE (SELECT SUM(population)
+       FROM world y
+       WHERE y.continent = x.continent) >=
+       100000000
+
+-- or
+
+SELECT continent
+FROM world x
+WHERE (SELECT SUM(population)
+       FROM world y
+       WHERE y.continent = x.continent) >=
+       100000000
+GROUP BY continent
