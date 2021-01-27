@@ -318,3 +318,111 @@ FROM game x LEFT JOIN goal ON x.id = matchid
 WHERE x.id = matchid OR x.id
 GROUP BY mdate, team1, team2
 ORDER BY mdate, matchid, team1, team2 -- I had to use LEFT JOIN for this, which I didn't expect to need at this point
+
+/**
+  ====More JOIN operations====
+**/
+
+SELECT id, title
+FROM movie
+WHERE yr = 1962
+
+SELECT yr
+FROM movie
+WHERE title = 'Citizen Kane';
+
+SELECT id, title, yr
+FROM movie
+WHERE title LIKE '%Star Trek%'
+ORDER BY yr;
+
+SELECT id
+FROM actor
+WHERE name = 'Glenn Close';
+
+SELECT id
+FROM movie
+WHERE title = 'Casablanca' ;
+
+SELECT name
+FROM actor
+INNER JOIN casting
+ON id = actorid
+WHERE movieid = 11768;
+
+SELECT name
+FROM actor
+INNER JOIN casting
+ON actor.id = actorid
+INNER JOIN movie
+ON movieid = movie.id
+WHERE title = 'Alien';
+
+SELECT title
+FROM movie
+INNER JOIN casting
+ON movie.id = movieid
+INNER JOIN actor
+ON actorid = actor.id
+WHERE name = 'Harrison Ford';
+
+SELECT title
+FROM movie
+INNER JOIN casting
+ON movie.id = movieid
+INNER JOIN actor
+ON actorid = actor.id
+WHERE name = 'Harrison Ford' AND ord != 1;
+
+SELECT title, name
+FROM movie
+INNER JOIN casting
+ON movie.id = movieid
+INNER JOIN actor
+ON actorid = actor.id
+WHERE yr = 1962 AND ord = 1;
+
+SELECT yr, COUNT(title) AS 'Movies Made'
+FROM movie
+INNER JOIN casting
+ ON movie.id = casting.movieid
+INNER JOIN actor
+ ON casting.actorid = actor.id
+WHERE name = 'Rock Hudson'
+GROUP BY yr
+HAVING COUNT(title) > 2;
+
+FROM movie
+INNER JOIN casting
+ ON movie.id = casting.movieid
+INNER JOIN actor
+ ON casting.actorid = actor.id
+WHERE ord = 1 AND movieid IN (
+                            SELECT movieid FROM casting
+                            WHERE actorid IN (
+                            SELECT id FROM actor
+                            WHERE name='Julie Andrews')
+                            );
+
+SELECT name
+FROM actor
+INNER JOIN casting ON actor.id = actorid
+INNER JOIN movie ON movieid = movie.id
+WHERE ord = 1
+GROUP BY name
+HAVING COUNT(actorid) >= 15
+
+SELECT title, COUNT(actorid) AS 'No. Actors'
+FROM movie
+INNER JOIN casting ON movie.id = movieid
+WHERE yr = 1978
+GROUP BY title, 'No. Actors'
+ORDER BY COUNT(actorid) DESC, title;
+
+SELECT name
+FROM actor
+INNER JOIN casting ON actor.id = actorid
+WHERE movieid IN (SELECT movieid FROM casting
+                  INNER JOIN actor ON actorid = actor.id
+                  WHERE name = 'Art Garfunkel')
+AND name != 'Art Garfunkel';
