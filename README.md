@@ -2,11 +2,11 @@
 
 # SQL-Zoo-Answers
 
-> In this repository you will find all the answers for the **Advanced** tutorial on SQL: 'SQL-Zoo' which can be found at https://sqlzoo.net/wiki/SQL_Tutorial.
+> In this repository you will find all the answers for the *9* **Advanced** tutorials on SQL in 'SQL-Zoo' which can be found at https://sqlzoo.net/wiki/SQL_Tutorial.
 
 ![screenshot](./Assets/answers_screenshot.png)
 
-This is a project which is part of Microverse's SQL and Databases course. I completed all the quizzes and exercises in SQL Zoo with a perfect score. This **advanced** set of excercises includes the following topics:
+This is a project which is part of Microverse's SQL and Databases course. I completed all the 9 quizzes and 9 exercises in SQL Zoo with a perfect score. This **advanced** set of excercises includes the following topics:
 - Advanced SELECT
 - SELECT within SELECT
 - AGGREGATEs
