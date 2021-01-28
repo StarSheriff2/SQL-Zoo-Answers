@@ -427,7 +427,6 @@ WHERE movieid IN (SELECT movieid FROM casting
                   WHERE name = 'Art Garfunkel')
 AND name != 'Art Garfunkel';
 
-
 /**
   ====Using Null====
 **/
@@ -475,3 +474,75 @@ SELECT teacher.name AS Teacher,
             ELSE 'None' END AS 'Title'
 FROM teacher LEFT JOIN dept
 ON teacher.dept = dept.id;
+
+/**
+  ====Self join====
+**/
+
+SELECT COUNT(id)
+FROM stops
+
+SELECT id
+FROM stops
+WHERE name = 'Craiglockhart';
+
+SELECT id, name
+FROM stops
+INNER JOIN route
+ON id = stop
+WHERE company = 'LRT' AND num = '4';
+
+SELECT company, num, COUNT(*)
+FROM route WHERE stop=149 OR stop=53
+GROUP BY company, num
+HAVING COUNT(*) = 2;
+
+SELECT a.company, a.num, a.stop, b.stop
+FROM route a JOIN route b ON
+  (a.company=b.company AND a.num=b.num)
+WHERE a.stop=53 AND b.stop = 149
+
+SELECT a.company, a.num, stopa.name, stopb.name
+FROM route a JOIN route b ON
+  (a.company=b.company AND a.num=b.num)
+  JOIN stops stopa ON (a.stop=stopa.id)
+  JOIN stops stopb ON (b.stop=stopb.id)
+WHERE stopa.name='Craiglockhart' AND stopb.name = 'London Road';
+
+SELECT DISTINCT a.company, a.num
+FROM route a INNER JOIN route b ON
+    (a.company = b.company AND a.num = b.num)
+    INNER JOIN stops stopa ON a.stop = stopa.id
+    INNER JOIN stops stopb ON b.stop = stopb.id
+WHERE stopa.name = 'Haymarket' AND stopb.name = 'Leith';
+
+SELECT DISTINCT a.company, a.num
+FROM route a INNER JOIN route b ON
+    (a.company = b.company AND a.num = b.num)
+    INNER JOIN stops stopa ON a.stop = stopa.id
+    INNER JOIN stops stopb ON b.stop = stopb.id
+WHERE stopa.name = 'Craiglockhart' AND stopb.name = 'Tollcross';
+
+SELECT DISTINCT stopb.name,
+       a.company, a.num
+FROM route a INNER JOIN route b ON
+    (a.company = b.company AND a.num = b.num)
+    INNER JOIN stops stopa ON a.stop = stopa.id
+    INNER JOIN stops stopb ON b.stop = stopb.id
+WHERE stopa.name = 'Craiglockhart' AND a.company = 'LRT';
+
+SELECT b.num AS '1st Bus', b.company AS 'Service',
+    stopd.name AS 'Transfer Stop', d.num AS '2nd Bus', d.company AS 'Service'
+  FROM route a INNER JOIN route b ON
+  (a.num = b.num AND a.company = b.company)
+    INNER JOIN stops stopa ON (a.stop = stopa.id)
+    INNER JOIN stops stopb ON (b.stop = stopb.id)
+
+  INNER JOIN route d ON (d.stop = stopb.id)
+
+  INNER JOIN route c ON
+  (c.num = d.num AND c.company = d.company)
+    INNER JOIN stops stopc ON (c.stop = stopc.id)
+    INNER JOIN stops stopd ON (d.stop = stopd.id)
+WHERE stopa.name = 'Craiglockhart' AND stopc.name = 'Lochend'
+ORDER BY b.num, b.company, stopd.name, d.num, d.company;   -- THIS WAS A TOUGH NUT TO BREAK!
