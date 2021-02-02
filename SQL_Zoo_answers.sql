@@ -559,5 +559,5 @@ ORDER BY b.num, b.company, stopd.name, d.num, d.company;   -- THIS WAS A TOUGH N
          AND R1.company = R2.company AND R3.stop = S3.id
          AND R4.stop = S4.id AND R3.num = R4.num
          AND R3.company = R4.company AND S3.name = 'Lochend'
-         AND R4.stop = S2.id
+         AND S2.id = S4.id
 ORDER BY R2.num, R2.company, S4.name, R4.num, R4.company
