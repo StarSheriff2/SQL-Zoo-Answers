@@ -547,7 +547,7 @@ SELECT b.num AS '1st Bus', b.company AS 'Service',
 WHERE stopa.name = 'Craiglockhart' AND stopc.name = 'Lochend'
 ORDER BY b.num, b.company, stopd.name, d.num, d.company;   -- THIS WAS A TOUGH NUT TO BREAK!
 
--- or variation 2
+-- or variation 2 (cleaner solution)
 
   SELECT R2.num AS '1st Bus', R2.company AS 'Service',
          S4.name AS 'Transfer Stop', R4.num AS '2nd Bus',
