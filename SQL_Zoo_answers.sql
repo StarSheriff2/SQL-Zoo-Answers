@@ -546,3 +546,18 @@ SELECT b.num AS '1st Bus', b.company AS 'Service',
     INNER JOIN stops stopd ON (d.stop = stopd.id)
 WHERE stopa.name = 'Craiglockhart' AND stopc.name = 'Lochend'
 ORDER BY b.num, b.company, stopd.name, d.num, d.company;   -- THIS WAS A TOUGH NUT TO BREAK!
+
+-- or variation 2
+
+  SELECT R2.num AS '1st Bus', R2.company AS 'Service',
+         S4.name AS 'Transfer Stop', R4.num AS '2nd Bus',
+         R4.company AS 'Service'
+    FROM route R1, route R2, route R3, route R4,
+         stops S1, stops S2, stops S3, stops S4
+   WHERE S1.name = 'Craiglockhart' AND S1.id = R1.stop
+         AND S2.id = R2.stop AND R1.num = R2.num
+         AND R1.company = R2.company AND R3.stop = S3.id
+         AND R4.stop = S4.id AND R3.num = R4.num
+         AND R3.company = R4.company AND S3.name = 'Lochend'
+         AND R4.stop = S2.id
+ORDER BY R2.num, R2.company, S4.name, R4.num, R4.company
