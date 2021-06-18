@@ -39,7 +39,7 @@ To make use of this excercises follow these simple steps.
 1. If you want to use the answers, go to https://sqlzoo.net/wiki/SQL_Tutorial.
 2. Find the Tutorial you want to use.
 3. Search for the title of the tutorial in the SQL file **'SQL_Zoo_answers.sql'**.
-4. All the answers are in the same order they are given in SQL Zoo, as of January 27, 2021
+4. All the answers are in the same order they are given in SQL Zoo, as of January 27, 2021.
 
 ## Authors
 
